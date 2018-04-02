@@ -13,14 +13,13 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 //declare variables
-var trainName = "";
-var destination = "";
-var trainTime = 0;
-
+var trainName;
+var destination;
 var frequencey;
+var trainTime;
 
-// var NextArrival = 0;
-// var MinutesAway = 0;
+var NextArrival;
+var MinutesAway;
 
 //on click functions
 $("#SubmitBtn").on("click", function () {
@@ -55,16 +54,17 @@ database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", functi
 
     console.log(snapshot.val());
 
-    console.log(snapshot.val().fireName);
-    console.log(snapshot.val().fireDestination);
-    console.log(snapshot.val().fireTrainTime);
-    console.log(snapshot.val().fireFrequency);
+    console.log("fireName: " + snapshot.val().fireName);
+    console.log("fireDestination: " + snapshot.val().fireDestination);
+    console.log("fireFrequency: " + snapshot.val().fireFrequency);
+    console.log("fireTrainTime: " + snapshot.val().fireTrainTime);
+    
 
    // Time is 3:30 AM
-   var firstTime = "03:30";
+//    var firstTime = "03:30";
 
    // First Time (pushed back 1 year to make sure it comes before current time)
-   var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+   var firstTimeConverted = moment(fireTrainTime, "HH:mm").subtract(1, "years");
    console.log("first time: ", firstTimeConverted);
    
    // Current Time
@@ -88,9 +88,6 @@ database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", functi
    console.log("ARRIVAL TIME: " + moment(NextArrival).format("hh:mm"));
 
 
-
-
-
      // Obtain a reference to the tbody element in the DOM
     var tableBody = $("tbody");
     
@@ -99,15 +96,18 @@ database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", functi
 
     var tableName = $("<td>").text(snapshot.val().fireName);
     var tableDestination = $("<td>").text(snapshot.val().fireDestination);
-    var tableTrainTime = $("<td>").text(snapshot.val().fireTrainTime);
-    var tableFrequency = $("<td>").text(snapshot.val().fireFrequency);    
+    var tableFrequency = $("<td>").text(snapshot.val().fireFrequency);
+    var tableTrainTime = $("<td>").text(snapshot.val().NextArrival);
+    var tableTrainTime = $("<td>").text(snapshot.val().MinutesAway);
+        
 
    
     // Append the td elements to the new table row
     tableRow.append(tableName);
     tableRow.append(tableDestination);
-    tableRow.append(tableTrainTime);
     tableRow.append(tableFrequency);
+    tableRow.append(tableTrainTime);
+   
 
     // Append the table row to the tbody element
     tableBody.append(tableRow);
